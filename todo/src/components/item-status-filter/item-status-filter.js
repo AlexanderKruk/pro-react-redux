@@ -3,15 +3,17 @@ import React, { Component } from 'react';
 import './item-status-filter.js';
 
 export default class ItemStatusFilter extends Component {
-  render() {
+ 
+render() {
+    const {filterChange, filter} = this.props;
     return (
-        <div className="btn-group">
+        <div className="btn-group" onClick={filterChange} >
             <button type="button"
-                    className="btn btn-info">All</button>
+                    className={filter === 'all' ? 'btn btn-info' : 'btn btn-outline-secondary'} id="all">All</button>
             <button type="button"
-                    className="btn btn-outline-secondary">Active</button>
+                    className={filter === 'active' ? 'btn btn-info' : 'btn btn-outline-secondary'} id="active">Active</button>
             <button type="button"
-                    className="btn btn-outline-secondary">Done</button>
+                    className={filter === 'done' ? 'btn btn-info' : 'btn btn-outline-secondary'} id="done">Done</button>
         </div>
     );
   };
