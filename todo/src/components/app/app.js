@@ -16,7 +16,8 @@ export default class App extends Component {
             this.createTodoItem('Drink Coffee'),
             this.createTodoItem('Make Awesome App'),
             this.createTodoItem('Have a lunch')
-        ]
+        ],
+        search: ''
     };
 
     createTodoItem(label) {
@@ -57,7 +58,11 @@ export default class App extends Component {
       });
     };
 
-    AddItem = (label) => {
+    searchChange = (e) => {
+       this.setState ({ search: e.target.value});
+    };
+
+    addItem = (label) => {
         const newItem = this.createTodoItem(label)
         this.setState(({todoData}) => {
             const newArray = [...todoData, newItem];
@@ -82,23 +87,34 @@ export default class App extends Component {
         });
     };
 
+    filter = (item, search) => {
+        if(search.length === 0){
+            return item
+        }
+
+        return item.filter((el) =>
+            el.label.toLowerCase()
+            .includes(search.toLowerCase()));
+    }
+
     render() {
-        const {todoData} = this.state;
+        const {todoData, search} = this.state;
         const doneCount = todoData.filter((el) => el.done).length;
-        const todoCount = todoData.length - doneCount
+        const todoCount = todoData.length - doneCount;
+        const filteredTodoData = this.filter(todoData, search);
         return (
         <div className="todo-app">
             <AppHeader toDo={todoCount} done={doneCount} />
             <div className="top-panel d-flex">
-            <SearchPanel />
+            <SearchPanel searchChange={this.searchChange} />
             <ItemStatusFilter />
             </div>
 
-            <TodoList todos={todoData}
+            <TodoList todos={filteredTodoData}
                 onDeleted={(id) => this.deleteItem(id)}
                 onToggleImportant = {this.onToggleImportant}
                 onToggleDone = {this.onToggleDone}/>
-                <ItemAddForm AddItem = {this.AddItem}/>
+                <ItemAddForm addItem = {this.addItem}/>
         </div>
         );
     }
