@@ -6,12 +6,20 @@ import ItemList from '../item-list';
 import PersonDetails from '../person-details';
 
 import './app.css';
+import ErrorButton from '../error-button';
+import ErrorIndicator from '../error-indicator';
 
 export default class App extends Component {
 
   state = {
-    selectedPerson: 5
+    selectedPerson: 5,
+    hasError: false
   };
+
+  componentDidCatch() {
+    console.log("componentDidCatch()");
+    this.setState({hasError: true});
+  }
 
   onPersonSelected = (id) => {
     this.setState({
@@ -20,10 +28,18 @@ export default class App extends Component {
   };
 
   render() {
+
+    if (this.state.hasError) {
+      return <ErrorIndicator />
+    }
+
     return (
       <div>
         <Header />
         <RandomPlanet />
+        <div className="row mb2 button-row">
+          <ErrorButton />
+        </div>
         <div className="row mb2">
           <div className="col-md-6">
             <ItemList onItemSelected={this.onPersonSelected} />
