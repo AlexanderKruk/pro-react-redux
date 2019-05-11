@@ -4,8 +4,7 @@ import Header from '../header';
 import ErrorIndicator from '../error-indicator';
 import SwapiService from '../../services/swapi-service';
 import ErrorBoundry from '../error-boundry';
-import ItemDetails from '../item-details';
-import Record from '../item-details/item-details'
+import ItemDetails, { Record } from '../item-details/item-details';
 import Row from '../row';
 
 
@@ -51,7 +50,13 @@ export default class App extends Component {
       <ItemDetails 
         itemId={5}
         getData={getStarship}
-        getImageUrl={getStarshipImage} />
+        getImageUrl={getStarshipImage}>
+
+        <Record field="model" label="Model"/>
+        <Record field="length" label="Length"/>
+        <Record field="costInCredits" label="Cost"/>
+
+      </ItemDetails>
     );
 
     return (

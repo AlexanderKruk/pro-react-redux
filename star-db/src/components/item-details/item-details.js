@@ -10,12 +10,12 @@ const Record = ({item, field, label}) => {
   return (
   <li className="list-group-item">
     <span className="term">{label}</span>
-    <span>{field}</span>
+    <span>{ item[field]}</span>
   </li>
   );
 };
 
-export { Record }
+export { Record };
 
 export default class ItemDetails extends Component {
 
@@ -44,6 +44,7 @@ export default class ItemDetails extends Component {
     if (!itemId) {
       return;
     }
+
     getData(itemId)
       .then((item) => {
         this.setState({
@@ -56,12 +57,13 @@ export default class ItemDetails extends Component {
 
   render() {
 
-    if (!this.state.item){
+    const { item, image } = this.state
+
+    if (!item){
       return <span>Select a item from a list!</span>;
     }
 
-    const { name, gender,
-           birthYear, eyeColor} = this.state.item;
+    const { name } = item;
 
     if (this.state.loading) {
       return ( 
@@ -74,14 +76,14 @@ export default class ItemDetails extends Component {
     return (
       <div className="item-details card">
         <img  className="item-image"
-              src={this.state.image}
-              alt="character"/>
+              src={image}
+              alt="item"/>
         <div className="card-body">
           <h4>{name}</h4>
           <ul className="list-group list-group-flush">
             { 
-              React.Children.map(this.props.children, (child, idx) => {
-                return <li>{idx}</li>;
+              React.Children.map(this.props.children, (child) => {
+                return React.cloneElement(child, { item });
               })
             }
           </ul>
