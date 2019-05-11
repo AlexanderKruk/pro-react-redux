@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
 import Header from '../header';
-// import RandomPlanet from '../random-planet';
-// import ErrorButton from '../error-button';
-// import PeoplePage from '../people-page';
 import ErrorIndicator from '../error-indicator';
 import SwapiService from '../../services/swapi-service';
 import ErrorBoundry from '../error-boundry';
 import ItemDetails from '../item-details';
+import Record from '../item-details/item-details'
 import Row from '../row';
 
 
@@ -41,7 +39,12 @@ export default class App extends Component {
       <ItemDetails 
         itemId={11}
         getData={getPerson}
-        getImageUrl={getPersonImage} />
+        getImageUrl={getPersonImage}>
+
+        <Record field="gender" label="Gender"/>
+        <Record field="eyeColor" label="Eye Color"/>
+
+        </ItemDetails>
     );
 
     const starshipDetails = (
